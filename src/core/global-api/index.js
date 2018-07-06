@@ -55,8 +55,13 @@ export function initGlobalAPI (Vue: GlobalAPI) {
 
   extend(Vue.options.components, builtInComponents)
 
+
+  //添加 use静态方法
   initUse(Vue)
+  // 添加mixin静态方法
   initMixin(Vue)
+  // 添加extenf静态方法
   initExtend(Vue)
+  // 添加全局component、directive、filter
   initAssetRegisters(Vue)
 }

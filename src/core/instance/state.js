@@ -307,6 +307,11 @@ function createWatcher (
   return vm.$watch(expOrFn, handler, options)
 }
 
+
+/**
+ * 在Vue的实例上新增$data $props两个属性 以及 $delete、$set、$watch三个方法
+ *
+ */
 export function stateMixin (Vue: Class<Component>) {
   // flow somehow has problems with directly declared definition object
   // when using Object.defineProperty, so we have to procedurally build up
@@ -316,6 +321,7 @@ export function stateMixin (Vue: Class<Component>) {
   const propsDef = {}
   propsDef.get = function () { return this._props }
   if (process.env.NODE_ENV !== 'production') {
+    // 禁止修改data
     dataDef.set = function (newData: Object) {
       warn(
         'Avoid replacing instance root $data. ' +
@@ -323,6 +329,7 @@ export function stateMixin (Vue: Class<Component>) {
         this
       )
     }
+    // 禁止修改props
     propsDef.set = function () {
       warn(`$props is readonly.`, this)
     }
@@ -330,6 +337,7 @@ export function stateMixin (Vue: Class<Component>) {
   Object.defineProperty(Vue.prototype, '$data', dataDef)
   Object.defineProperty(Vue.prototype, '$props', propsDef)
 
+  //在Vue的原型上新增三个方法
   Vue.prototype.$set = set
   Vue.prototype.$delete = del
 
